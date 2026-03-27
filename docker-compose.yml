@@ -26,7 +26,17 @@ services:
   mattermost:
     depends_on:
       - postgres
-    image: mattermost/${MATTERMOST_IMAGE}:${MATTERMOST_IMAGE_TAG}
+    # Image built for linux/arm64 by the GitHub Actions workflow and published to ghcr.io.
+    # To build locally instead, replace the line below with the `build:` block commented out below.
+    image: ghcr.io/rafascripts/mattermost:${MATTERMOST_IMAGE_TAG}
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   args:
+    #     MATTERMOST_VERSION: ${MATTERMOST_IMAGE_TAG}
+    #     MATTERMOST_EDITION: ${MATTERMOST_IMAGE}
+    #   platforms:
+    #     - linux/arm64
     restart: ${RESTART_POLICY}
     security_opt:
       - no-new-privileges:true
